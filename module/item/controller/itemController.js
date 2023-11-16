@@ -14,8 +14,8 @@ var users = require('./../../user/model/userModel');
 var orders = require('../model/orderModel');
 var lists = require('../model/listModel');
 var trades = require('../model/tradeModel');
-var ipfsAPI = require('ipfs-api');
-var ipfs = ipfsAPI('ipfs.infura.io', '5001', { protocol: 'https' });
+// var ipfsAPI = require('ipfs-api');
+// var ipfs = ipfsAPI('ipfs.infura.io', '5001', { protocol: 'https' });
 var fs = require('fs');
 var config = require("../../../helper/config")
 const Moralis = require("moralis").default;
@@ -360,8 +360,8 @@ exports.getListedCollectionItem = async function(req, res) {
                 w_filteredListedRes[w_i]['floor_price'] = 0;
             }
         }
-        var w_allNFTs = await this.getAllNFTsByCollection(collectionAddress, w_listedRes[0]['collection']['chain']);
-        var w_nftOwners = await this.getNFTOwners(collectionAddress, w_listedRes[0]['collection']['chain']);
+        var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(collectionAddress, w_listedRes[0]['collection']['chain']);
+        var w_nftOwners = [2, 2, 2] //await this.getNFTOwners(collectionAddress, w_listedRes[0]['collection']['chain']);
         w_filteredListedRes[0]['listedRate'] = Math.round(w_filteredListedRes[0]['count'] /w_allNFTs.length * 100)
         w_filteredListedRes[0]['owners'] = w_nftOwners.length;
         w_filteredListedRes[0]['nftCount'] = w_allNFTs.length;
@@ -468,7 +468,7 @@ exports.getTopSoldCollectionsToday = async function(req, res) {
             if(w_bNotExist) {
                 w_soldRes[w_i]['count'] = 0;
             }
-            var w_allNFTs = await this.getAllNFTsByCollection(w_soldRes[w_i]['collection']['contract_address'], w_soldRes[w_i]['collection']['chain']);
+            var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(w_soldRes[w_i]['collection']['contract_address'], w_soldRes[w_i]['collection']['chain']);
             w_soldRes[w_i]['nftCount'] = w_allNFTs.length;
         }
         res.json({
@@ -501,15 +501,9 @@ exports.getNotableCollections = async function(req, res) {
     }
     if(w_artCollections.length > 0) {
         w_artItems = await this.getListedItems(w_artCollections[0]._id, 0, 3);
-        console.log(w_artCollections[0]._id);
-        console.log(w_artItems)
-        console.log("-----------------")
     }
     if(w_utilityCollections.length > 0) {
         w_utilityItems = await this.getListedItems(w_utilityCollections[0]._id, 0, 3);
-        console.log(w_utilityCollections[0]._id);
-        console.log(w_utilityItems)
-        console.log("-----------------")
     }
     if(w_membershipCollections.length > 0) {
         w_membershipItems = await this.getListedItems(w_membershipCollections[0]._id, 0, 3);
@@ -528,7 +522,7 @@ exports.getNotableCollections = async function(req, res) {
         'collection': w_collections, 
         'items': w_items
     }
-    console.log(w_res.items)
+
     res.json({
         status: true,
         message: "notable collections  retrieved successfully",
@@ -789,7 +783,7 @@ exports.tradeAdd = async function(req,res) {
         await lists.updateOne(updatequery, newvalue);
     } else {
         var updatequery = { _id: req.body.listId };
-        var newvalue = { $set: {isSold: true,  fractionAmount: w_listRes[0].fractionAmount - req.body.fractionAmount} };
+        var newvalue = { $set: {fractionAmount: w_listRes[0].fractionAmount - req.body.fractionAmount} };
         await lists.updateOne(updatequery, newvalue);
     }
 
@@ -1023,7 +1017,7 @@ getListedCollectionsByCategory = async function(category, skip, limit) {
                 w_filteredListedRes[w_i]['volume'] = 0;
                 w_filteredListedRes[w_i]['floor_price'] = 0;
             }
-            var w_allNFTs = await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
+            var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
             w_filteredListedRes[w_i]['nftCount'] = w_allNFTs.length;
         }
 
@@ -1106,7 +1100,7 @@ getListedCollections = async function(skip, limit) {
                 w_filteredListedRes[w_i]['volume'] = 0;
                 w_filteredListedRes[w_i]['floor_price'] = 0;
             }
-            var w_allNFTs = await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
+            var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
             w_filteredListedRes[w_i]['nftCount'] = w_allNFTs.length;
         }
         return w_filteredListedRes;
@@ -1123,7 +1117,7 @@ getListedItems = async function(collection, skip, limit) {
     var query = lists.find();
     query = query.where('collection_id', collection)
     query = query.where('isSold', false)
-    var fields = ['_id', 'token_id', 'fractionAmount', 'isAuction', 'price', 'item_id', 'auctionDays', 'collection_id', 'user_id']
+    var fields = ['_id', 'token_id', 'fractionAmount', 'isAuction', 'price', 'item_id', 'auctionDays', 'collection_id', 'user_id', 'list_date']
     try{
         var w_res = await lists.find(query, fields, {skip: skip, limit: limit}).populate('collection_id').populate('item_id').populate('user_id');
         return w_res;

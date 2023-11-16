@@ -1,8 +1,6 @@
 var request = require("request");
 var fs = require("fs");
 var download = require('image-downloader');
-var { create } = require('ipfs-http-client');
-var ipfs = create({host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 
 exports.saveFacebookImageUrl = function(url,imgname,callback) {
     request(url, function(err, res, body) {
@@ -39,12 +37,10 @@ exports.uploadImage = function (req,res) {
 exports.uploadMedia = async function(req,res) {
   var data = fs.readFileSync(req.file.path);
   try {
-    const {cid} = await ipfs.add(data)
-    console.log(cid)
     res.json({
       status: true,
       message: 'media upload successfully completed',
-      data:  cid
+      data:  'cid'
     })
   } catch (err) {
     console.log(err);

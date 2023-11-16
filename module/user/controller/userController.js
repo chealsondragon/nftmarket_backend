@@ -13,7 +13,6 @@ const { validationResult } = require('express-validator');
 var config = require('./../../../helper/config')
 var moment = require('moment');
 const { random } = require('lodash');
-var mailer = require('./../../common/controller/mailController'); 
 const crypto = require('crypto');
 
 /**************************************************************
