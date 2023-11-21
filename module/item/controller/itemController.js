@@ -344,11 +344,11 @@ exports.getListedCollectionItem = async function(req, res) {
                 }
             }
         ]);
-        
+
         var w_bNotExist = true;
         for(var w_i = 0; w_i < w_filteredListedRes.length; w_i++) {
             for(w_k = 0; w_k < w_soldRes.length; w_k++) {
-                if(w_filteredListedRes[w_i]['_id'] == w_soldRes[w_k]['_id']){
+                if(w_filteredListedRes[w_i]['_id'].toString() == w_soldRes[w_k]['_id'].toString()){
                     w_filteredListedRes[w_i]['volume'] = w_soldRes[w_k]['volume'];
                     w_filteredListedRes[w_i]['floor_price'] = w_soldRes[w_k]['floor_price'];
                     w_bNotExist = false;
@@ -360,12 +360,12 @@ exports.getListedCollectionItem = async function(req, res) {
                 w_filteredListedRes[w_i]['floor_price'] = 0;
             }
         }
-        var w_allNFTs = await this.getAllNFTsByCollection(collectionAddress, w_listedRes[0]['collection']['chain']);
-        var w_nftOwners = await this.getNFTOwners(collectionAddress, w_listedRes[0]['collection']['chain']);
+        var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(collectionAddress, w_listedRes[0]['collection']['chain']);
+        var w_nftOwners = [2, 2, 2] //await this.getNFTOwners(collectionAddress, w_listedRes[0]['collection']['chain']);
         w_filteredListedRes[0]['listedRate'] = Math.round(w_filteredListedRes[0]['count'] /w_allNFTs.length * 100)
         w_filteredListedRes[0]['owners'] = w_nftOwners.length;
         w_filteredListedRes[0]['nftCount'] = w_allNFTs.length;
-        
+
         res.json({
             status: true,
             message: "listed collections retrieved successfully",
@@ -468,7 +468,7 @@ exports.getTopSoldCollectionsToday = async function(req, res) {
             if(w_bNotExist) {
                 w_soldRes[w_i]['count'] = 0;
             }
-            var w_allNFTs = await this.getAllNFTsByCollection(w_soldRes[w_i]['collection']['contract_address'], w_soldRes[w_i]['collection']['chain']);
+            var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(w_soldRes[w_i]['collection']['contract_address'], w_soldRes[w_i]['collection']['chain']);
             w_soldRes[w_i]['nftCount'] = w_allNFTs.length;
         }
         res.json({
@@ -1006,7 +1006,7 @@ getListedCollectionsByCategory = async function(category, skip, limit) {
         var w_bNotExist = true;
         for(var w_i = 0; w_i < w_filteredListedRes.length; w_i++) {
             for(w_k = 0; w_k < w_soldRes.length; w_k++) {
-                if(w_filteredListedRes[w_i]['_id'] == w_soldRes[w_k]['_id']){
+                if(w_filteredListedRes[w_i]['_id'].toString() == w_soldRes[w_k]['_id'].toString()){
                     w_filteredListedRes[w_i]['volume'] = w_soldRes[w_k]['volume'];
                     w_filteredListedRes[w_i]['floor_price'] = w_soldRes[w_k]['floor_price'];
                     w_bNotExist = false;
@@ -1017,7 +1017,7 @@ getListedCollectionsByCategory = async function(category, skip, limit) {
                 w_filteredListedRes[w_i]['volume'] = 0;
                 w_filteredListedRes[w_i]['floor_price'] = 0;
             }
-            var w_allNFTs = await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
+            var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
             w_filteredListedRes[w_i]['nftCount'] = w_allNFTs.length;
         }
 
@@ -1089,7 +1089,7 @@ getListedCollections = async function(skip, limit) {
         var w_bNotExist = true;
         for(var w_i = 0; w_i < w_filteredListedRes.length; w_i++) {
             for(w_k = 0; w_k < w_soldRes.length; w_k++) {
-                if(w_filteredListedRes[w_i]['_id'] == w_soldRes[w_k]['_id']){
+                if(w_filteredListedRes[w_i]['_id'].toString() == w_soldRes[w_k]['_id'].toString()){
                     w_filteredListedRes[w_i]['volume'] = w_soldRes[w_k]['volume'];
                     w_filteredListedRes[w_i]['floor_price'] = w_soldRes[w_k]['floor_price'];
                     w_bNotExist = false;
@@ -1100,7 +1100,7 @@ getListedCollections = async function(skip, limit) {
                 w_filteredListedRes[w_i]['volume'] = 0;
                 w_filteredListedRes[w_i]['floor_price'] = 0;
             }
-            var w_allNFTs = await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
+            var w_allNFTs = [3,3,3] //await this.getAllNFTsByCollection(w_filteredListedRes[w_i]['collection']['contract_address'], w_filteredListedRes[w_i]['collection']['chain']);
             w_filteredListedRes[w_i]['nftCount'] = w_allNFTs.length;
         }
         return w_filteredListedRes;
